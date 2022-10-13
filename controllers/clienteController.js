@@ -1,5 +1,23 @@
 export const listarClientes = (req, res) => {
-    if (Object.keys(req.boby).includes('')) {
-        return res.json({ msg: 'Todos los campos son obligatorios' });
-    }
+    const clientes = [
+        {
+            id: 1,
+            nombre: 'jose carlos',
+        },
+        {
+            id: 2,
+            nombre: 'antonira',
+        },
+        {
+            id: 3,
+            nombre: 'jhonatan',
+        },
+        {
+            id: 4,
+            nombre: 'sandra',
+        },
+    ];
+
+    //? respuesta
+    res.status(200).json(clientes);
 };
