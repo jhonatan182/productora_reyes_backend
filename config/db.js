@@ -10,6 +10,7 @@ const db = new Sequelize(
     {
         host: 'localhost',
         dialect: 'mysql',
+        port: 3306,
         define: {
             timestamps: false,
         },

@@ -2,8 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { conectarDB } from './config/db.js';
 
+
+
 //? rutas
 import routerClientes from './routes/clientesRoutes.js';
+import routerProveedores from './routes/proveedorRoutes.js';
 
 //? manejo de variables de entorno
 dotenv.config();
@@ -19,6 +22,10 @@ conectarDB();
 
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
+app.use('/api/proveedores', routerProveedores);
+
+
+
 
 const PORT = process.env.PORT || 4000;
 
