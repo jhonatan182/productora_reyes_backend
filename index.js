@@ -10,6 +10,7 @@ import routerFacturacion from './routes/facturacionRoutes.js';
 import routerInventarioProductos from './routes/inventarioProductosRouter.js';
 import routerMateria from './routes/materiaRoutes.js';
 import routerEmpleados from './routes/empleadoRoutes.js';
+import routerProveedores from './routes/proveedorRoutes.js';
 
 
 //? manejo de variables de entorno
@@ -30,6 +31,8 @@ app.use('/api/facturacion', routerFacturacion);
 app.use('/api/inventario-productos', routerInventarioProductos);
 app.use('/api/materias', routerMateria);
 app.use('/api/empleados', routerEmpleados);
+app.use('/api/proveedores', routerProveedores);
+
 
 
 const PORT = process.env.PORT || 4000;
