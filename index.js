@@ -6,6 +6,7 @@ import { conectarDB } from './config/db.js';
 
 //? rutas
 import routerClientes from './routes/clientesRoutes.js';
+import routerMateria from './routes/materiaRoutes.js';
 
 import routerEmpleados from './routes/empleadoRoutes.js';
 
@@ -23,6 +24,7 @@ conectarDB();
 
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
+app.use('/api/materias', routerMateria);
 
 app.use('/api/empleados', routerEmpleados);
 
