@@ -18,24 +18,25 @@ const Empleado = db.define('empleados', {
         allowNull: false,
     },
     identidad_empleado: {
-        type: DataTypes.STRING(13),
+        type: DataTypes.STRING(45),
         allowNull: false,
     },
     edad_empleado: {
-        type: DataTypes.STRING(2),
+        type: DataTypes.INTEGER(),
+
         allowNull: false,
     },
     telefono_empleado: {
-        type: DataTypes.STRING(11),
+        type: DataTypes.STRING(45),
         allowNull: false,
     },
     correo_empleado: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(90),
         allowNull: false,
         unique:true,
     },
     direccion_empleado: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(120),
         allowNull: true,
     }
 },
