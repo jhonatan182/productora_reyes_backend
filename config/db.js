@@ -10,6 +10,7 @@ const db = new Sequelize(
     {
         host: 'localhost',
         dialect: 'mysql',
+        port: 3306,
         define: {
             timestamps: false,
         },
@@ -28,6 +29,8 @@ export const conectarDB = async () => {
         console.log('Base de datos conectada correctamente');
     } catch (error) {
         console.log('No se pudo conectar a la base de datos');
+        console.log(error);
+    
         process.exit(1);
     }
 };
