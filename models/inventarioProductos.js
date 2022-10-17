@@ -3,7 +3,7 @@ import db from '../config/db.js';
 
  export const InventarioProductos = db.define(
     "inventarioproductos",
-    {
+{
     codigo_producto: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -36,9 +36,9 @@ import db from '../config/db.js';
     total:{
         type:DataTypes.FLOAT,
         allowNull: false,
-    }
+    },
 },{
-    tableName: "InventarioProductos",
+    tableName: "inventario",
     timestamps: false
 }
 );

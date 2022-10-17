@@ -1,10 +1,12 @@
-import { query } from 'express';
+
 import {InventarioProductos } from '../models/inventarioProductos.js';
 
+/*
 export const inicio = (req, res) => {C
     res.send('Iniciando modulo Inventario Productos');
   
 };
+*/
 
 export const listarInventarioProducto = async (req, res) => {
     const lista = await InventarioProductos.findAll();
