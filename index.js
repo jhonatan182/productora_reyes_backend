@@ -4,6 +4,8 @@ import { conectarDB } from './config/db.js';
 
 //? rutas
 import routerClientes from './routes/clientesRoutes.js';
+import routerInventarioProductos from './routes/inventarioProductosRouter.js';
+
 
 //? manejo de variables de entorno
 dotenv.config();
@@ -19,6 +21,7 @@ conectarDB();
 
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
+app.use('/api/inventario_productos', routerInventarioProductos);
 
 const PORT = process.env.PORT || 4000;
 
