@@ -7,6 +7,7 @@ import { conectarDB } from './config/db.js';
 //? rutas
 import routerClientes from './routes/clientesRoutes.js';
 import routerProveedores from './routes/proveedorRoutes.js';
+import routerEmpleados from './routes/empleadoRoutes.js';
 
 //? manejo de variables de entorno
 dotenv.config();
@@ -23,6 +24,7 @@ conectarDB();
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
 app.use('/api/proveedores', routerProveedores);
+app.use('/api/empleados', routerEmpleados);
 
 
 
