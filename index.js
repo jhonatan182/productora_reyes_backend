@@ -21,7 +21,7 @@ conectarDB();
 
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
-app.use('/api/inventario_productos', routerInventarioProductos);
+app.use('/api/inventario-productos', routerInventarioProductos);
 
 const PORT = process.env.PORT || 4000;
 
