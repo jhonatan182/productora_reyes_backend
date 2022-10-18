@@ -1,5 +1,5 @@
 
-import {InventarioProductos } from '../models/inventarioProductos.js';
+import {InventarioProductos} from '../models/inventarioProductos.js'
 
 /*
 export const inicio = (req, res) => {C
@@ -41,5 +41,45 @@ export const guardarInventarioProducto = async (req,res) =>{
                     console.log(error);
                     res.send("Error al guardar datos");
                 });
+    }
+};
+
+export const modificarInventarioProducto = async (req, res) => {
+        
+    const { codigo_producto } = req.query;
+    const {producto, descripcion, cantidad_inicial, precio_producto, entradas, salidas, total} = req.body;
+    if (!codigo_producto || !producto || !descripcion || !cantidad_inicial || !precio_producto ||!entradas || !salidas || !total) {
+    res.send("Debe enviar los datos completos");
+    }
+    else {
+        var buscarInventarioProducto = await InventarioProductos.findOne({
+            where: {
+                codigo_producto: codigo_producto
+            }
+        })
+
+        if (!buscarInventarioProducto) {
+            res.send("El codigo producto no existe");
+        }
+        else {
+            //por aqui me quede con esta onda al venirme del trabajo
+            buscarInventarioProducto.producto = producto;
+            buscarInventarioProducto.descripcion = descripcion;
+            buscarInventarioProducto.cantidad_inicial = cantidad_inicial;
+            buscarInventarioProducto.precio_producto = precio_producto;
+            buscarInventarioProducto.entradas = entradas;
+            buscarInventarioProducto.salidas = salidas;
+            buscarInventarioProducto.total = total;
+            await buscarInventarioProducto.save()
+                .then((data) => {
+                    console.log(data);
+                    res.send("Registro actualizado Exitosamente !!!");
+                })
+
+                .catch((error) => {
+                    console.log(error);
+                    res.send("Error al actualizar los datos o el id de tipo no existe :(");
+                })
+        }
     }
 };
