@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', listarMateria);
 router.post('/nueva-materia', agregarMateria);
-router.put('/editar-materia', editarMateria);
+router.put('/editar-materia/:id', editarMateria);
 router.delete('/eliminar-materia', eliminarMateria);
 
 

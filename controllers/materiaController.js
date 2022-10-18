@@ -35,42 +35,35 @@ export const agregarMateria = async (req,res) =>{
 };
 
 export const editarMateria = async (req, res) => {
-        
-        const { id_materia } = req.query;
-        const {nombre_materia, descripcion_materia, cantidad_existencia, precio_unitario} = req.body;
-        if (!nombre_materia || !descripcion_materia || !cantidad_existencia|| !precio_unitario) {
-        res.send("Hay un espacio en blanco");
+    const { id } = req.params;
+
+    if (
+        Object.values(req.body).includes('') ||
+        Object.keys(req.body).length === 0
+    ) {
+        const error = new Error('Todos los campos son obligatorios');
+        return res.status(400).json({ msg: error.message });
+    }
+    try {
+        const materia = await Materia.findByPk(id);
+
+        if (!materia) {
+            const error = new Error('Materia no encontrado');
+            return res.status(404).json({ msg: error.message });
         }
-        else {
+       
+        const materiaActualizado = await materia.update({
+            nombre_materia: req['body']['nombre_materia'],
+            descripcion_materia: req['body']['descripcion_materia'],
+            cantidad_existencia: req['body']['cantidad_existencia'],
+            precio_unitario: req['body']['precio_unitario'],
+        });
 
-            var buscarMateria = await Materia.findOne({
-                where: {
-                    id_materia: id_materia
-                }
-            })
-
-            if (!buscarMateria) {
-                res.send("El id no existe");
-            }
-            else {
-                buscarMateria.nombre_materia = nombre_materia;
-                buscarMateria.descripcion_materia = descripcion_materia;
-                buscarMateria.cantidad_existencia = cantidad_existencia;
-                buscarMateria.precio_unitario =  precio_unitario;
-                await buscarMateria.save()
-                    .then((data) => {
-                        console.log(data);
-                        res.send("Actualizado!!!");
-                    })
-
-                    .catch((error) => {
-                        console.log(error);
-                        res.send("Error al actualizar los datos");
-                    })
-            }
-        }
+        return res.status(200).json(materiaActualizado);
+    } catch (error) {
+        console.log(error);
+    }
 };
-
 
 export const eliminarMateria = async(req,res) =>{
     const {id_materia} = req.query;
