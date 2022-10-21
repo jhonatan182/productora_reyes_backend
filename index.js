@@ -7,7 +7,7 @@ import { conectarDB } from './config/db.js';
 //? rutas
 import routerClientes from './routes/clientesRoutes.js';
 import routerFacturacion from './routes/facturacionRoutes.js';
-import routerProductos from './routes/Productos.js';
+import routerProductos from './routes/ProductosRoutes.js';
 import routerMateria from './routes/materiaRoutes.js';
 import routerEmpleados from './routes/empleadoRoutes.js';
 import routerProveedores from './routes/proveedorRoutes.js';

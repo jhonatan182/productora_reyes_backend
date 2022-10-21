@@ -68,3 +68,19 @@ export const modificarProductos = async (req, res) => {
         console.log(error);
     }
 };
+
+export const obtenerUnProducto = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const producto = await Productos.findByPk(id);
+
+        if (!producto) {
+            const error = new Error('Producto no encontrado :(');
+            return res.status(404).json({ msg: error.message });
+        }
+
+        return res.status(200).json(producto);
+    } catch (error) {
+        console.log(error);
+    }
+};
