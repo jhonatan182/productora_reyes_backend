@@ -11,6 +11,8 @@ import routerInventarioProductos from './routes/inventarioProductosRouter.js';
 import routerMateria from './routes/materiaRoutes.js';
 import routerEmpleados from './routes/empleadoRoutes.js';
 import routerProveedores from './routes/proveedorRoutes.js';
+import routerCompra from './routes/compraRoutes.js';
+import routerDetalle from './routes/detalleRoutes.js';
 
 
 //? manejo de variables de entorno
@@ -32,6 +34,8 @@ app.use('/api/inventario-productos', routerInventarioProductos);
 app.use('/api/materias', routerMateria);
 app.use('/api/empleados', routerEmpleados);
 app.use('/api/proveedores', routerProveedores);
+app.use('/api/compras', routerCompra);
+app.use('/api/detalles', routerDetalle);
 
 
 
