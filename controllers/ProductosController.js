@@ -35,7 +35,7 @@ export const guardarProductos = async (req,res) =>{
     }
 };
 
-//? editar un cliente
+
 export const modificarProductos = async (req, res) => {
     const { id } = req.params;
 
@@ -80,6 +80,25 @@ export const obtenerUnProducto = async (req, res) => {
         }
 
         return res.status(200).json(producto);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+export const eliminarProducto = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const producto = await Productos.findByPk(id);
+
+        if (!producto) {
+            const error = new Error('Producto no encontrado :(');
+            return res.status(404).json({ msg: error.message });
+        }
+        
+        const ProductoEliminado = await producto.destroy();
+
+        return res.status(200).json(ProductoEliminado);
     } catch (error) {
         console.log(error);
     }
