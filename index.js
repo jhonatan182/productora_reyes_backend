@@ -9,9 +9,11 @@ import routerProductos from './routes/ProductosRoutes.js';
 import routerMateria from './routes/materiaRoutes.js';
 import routerEmpleados from './routes/empleadoRoutes.js';
 import routerProveedores from './routes/proveedorRoutes.js';
+import routerDetalleFacturacion from './routes/detalleFacturacionRoutes.js'
 import routerUsuarios from './routes/usuarioRoutes.js';
 import routerCompra from './routes/compraRoutes.js';
 import routerDetalle from './routes/detalleRoutes.js';
+
 
 
 //? manejo de variables de entorno
@@ -27,6 +29,8 @@ conectarDB();
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
 app.use('/api/facturacion', routerFacturacion);
+app.use('/api/detallefacturacion', routerDetalleFacturacion);
+app.use('/api/inventario-productos', routerInventarioProductos);
 app.use('/api/Productos', routerProductos);
 app.use('/api/materias', routerMateria);
 app.use('/api/empleados', routerEmpleados);
