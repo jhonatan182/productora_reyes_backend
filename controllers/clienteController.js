@@ -2,6 +2,11 @@ import Cliente from '../models/Cliente.js';
 
 //? lista todos los clientes
 const listarClientes = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     try {
         const clientes = await Cliente.findAll();
 
@@ -16,6 +21,11 @@ const listarClientes = async (req, res) => {
 
 //? obtener un cliente por su Id
 const obtenerCliente = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     const { id } = req.params;
     try {
         const cliente = await Cliente.findByPk(id);
@@ -33,6 +43,11 @@ const obtenerCliente = async (req, res) => {
 
 //? almacena un nuevo cliente
 const nuevoCliente = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     if (
         Object.values(req.body).includes('') ||
         Object.keys(req.body).length === 0
@@ -67,6 +82,11 @@ const nuevoCliente = async (req, res) => {
 
 //? editar un cliente
 const editarCliente = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     const { id } = req.params;
 
     if (
@@ -111,6 +131,11 @@ const editarCliente = async (req, res) => {
 };
 
 const eliminarCliente = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     const { id } = req.params;
     try {
         const cliente = await Cliente.findByPk(id);
