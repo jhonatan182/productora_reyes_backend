@@ -10,6 +10,9 @@ import routerMateria from './routes/materiaRoutes.js';
 import routerEmpleados from './routes/empleadoRoutes.js';
 import routerProveedores from './routes/proveedorRoutes.js';
 import routerUsuarios from './routes/usuarioRoutes.js';
+import routerCompra from './routes/compraRoutes.js';
+import routerDetalle from './routes/detalleRoutes.js';
+
 
 //? manejo de variables de entorno
 dotenv.config();
@@ -29,6 +32,9 @@ app.use('/api/materias', routerMateria);
 app.use('/api/empleados', routerEmpleados);
 app.use('/api/proveedores', routerProveedores);
 app.use('/api/usuarios', routerUsuarios);
+app.use('/api/compras', routerCompra);
+app.use('/api/detalles', routerDetalle);
+
 
 const PORT = process.env.PORT || 4000;
 

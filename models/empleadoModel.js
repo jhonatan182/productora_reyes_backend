@@ -21,11 +21,7 @@ const Empleado = db.define('empleados', {
         type: DataTypes.STRING(45),
         allowNull: false,
     },
-    edad_empleado: {
-        type: DataTypes.INTEGER(),
-
-        allowNull: false,
-    },
+  
     telefono_empleado: {
         type: DataTypes.STRING(45),
         allowNull: false,
@@ -38,7 +34,11 @@ const Empleado = db.define('empleados', {
     direccion_empleado: {
         type: DataTypes.STRING(120),
         allowNull: true,
-    }
+    },
+    rol_id:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
 },
         {
         tableName: "empleados",
