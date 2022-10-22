@@ -46,7 +46,11 @@ const autenticarUsuario = async (req, res) => {
         if (await usuarioExiste.compararPassword(password)) {
             // aqui va el codigo cuando el password coincida
             const [usuarioLogin] = await Usuario.sequelize.query(
-                'select e.id_empleado , e.nombre_empleado, e.apellido_empleado, u.usuario  from empleados e inner join usuarios u on e.id_empleado = u.empleado_id '
+                `select e.id_empleado , e.nombre_empleado, e.apellido_empleado, u.usuario, r.descripcion_rol  
+                from empleados e 
+                inner join usuarios u on e.id_empleado = u.empleado_id 
+                inner join roles r on e.rol_id  = r.id_rol 
+                where e.id_empleado = ${usuarioExiste.empleado_id} `
             );
 
             return res.status(200).json({
@@ -62,4 +66,10 @@ const autenticarUsuario = async (req, res) => {
     }
 };
 
-export { registrarUsuario, autenticarUsuario };
+const perfil = async (req, res) => {
+    const { usuario } = req;
+
+    return res.status(200).json(usuario);
+};
+
+export { registrarUsuario, autenticarUsuario, perfil };
