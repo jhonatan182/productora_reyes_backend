@@ -12,6 +12,7 @@ router.post("/guardar", [
     check("telefono_empleado", "El telefono del empleado es obligatorio").not().isEmpty(),
     check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
     check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
+    check("rol_id", "El rol del empleado es obligatorio").not().isEmpty(),
 ], crearEmpleados);
 
 router.put("/actualizar", [
@@ -21,6 +22,7 @@ router.put("/actualizar", [
     check("telefono_empleado", "El telefono del empleado es obligatorio").not().isEmpty(),
     check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
     check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
+    check('rol_id').isInt().withMessage("Debe de enviar un numero entero."),
 ], actualizarEmpleado);
 
 router.delete("/eliminar", [
