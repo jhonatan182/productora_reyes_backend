@@ -6,10 +6,11 @@ import {
     editarCliente,
     eliminarCliente,
 } from '../controllers/clienteController.js';
+import checkAuth from '../middlewares/checkAuth.js';
 
 const router = express.Router();
 
-router.get('/', listarClientes);
+router.get('/', checkAuth, listarClientes);
 router.get('/:id', obtenerCliente);
 router.post('/nuevo-cliente', nuevoCliente);
 router.put('/editar-cliente/:id', editarCliente);

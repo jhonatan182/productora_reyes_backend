@@ -43,7 +43,7 @@ export const actualizarEmpleado = async (req, res) => {
     }
 
     //? extraer la informacion del empleado
-    const { nombre_empleado, apellido_empleado,identidad_empleado, telefono_empleado, direccion_empleado, correo_empleado, } = req.body;
+    const { nombre_empleado, apellido_empleado,identidad_empleado, telefono_empleado, direccion_empleado, correo_empleado,rol_id ,} = req.body;
     const nuevoEmpleado = {};
     if (nombre_empleado) {
         nuevoEmpleado.nombre_empleado = nombre_empleado;
@@ -63,6 +63,10 @@ export const actualizarEmpleado = async (req, res) => {
     if (correo_empleado) {
         nuevoEmpleado.correo_empleado = correo_empleado;
     }
+    if (rol_id) {
+        nuevoEmpleado.rol_id = rol_id;
+        
+    }   
     try {
         //? revisar el ID
         let empleado = await empleadoModel.findByPk(req.query.id_empleado);
