@@ -15,14 +15,10 @@ const Cliente = db.define(
         },
         apellido_cliente: {
             type: DataTypes.STRING(45),
-            allowNull: false,
+            allowNull: true,
         },
         identidad_cliente: {
             type: DataTypes.STRING(45),
-            allowNull: false,
-        },
-        edad: {
-            type: DataTypes.INTEGER,
             allowNull: false,
         },
         telefono_cliente: {
@@ -31,7 +27,7 @@ const Cliente = db.define(
         },
         correo_cliente: {
             type: DataTypes.STRING(90),
-            allowNull: false,
+            allowNull: true,
         },
         direccion_cliente: {
             type: DataTypes.STRING(120),
