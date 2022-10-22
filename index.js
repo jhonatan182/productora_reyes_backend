@@ -5,7 +5,7 @@ import { conectarDB } from './config/db.js';
 //? rutas
 import routerClientes from './routes/clientesRoutes.js';
 import routerFacturacion from './routes/facturacionRoutes.js';
-import routerInventarioProductos from './routes/inventarioProductosRouter.js';
+import routerProductos from './routes/ProductosRoutes.js';
 import routerMateria from './routes/materiaRoutes.js';
 import routerEmpleados from './routes/empleadoRoutes.js';
 import routerProveedores from './routes/proveedorRoutes.js';
@@ -27,7 +27,7 @@ conectarDB();
 //? asocinado rutas
 app.use('/api/clientes', routerClientes);
 app.use('/api/facturacion', routerFacturacion);
-app.use('/api/inventario-productos', routerInventarioProductos);
+app.use('/api/Productos', routerProductos);
 app.use('/api/materias', routerMateria);
 app.use('/api/empleados', routerEmpleados);
 app.use('/api/proveedores', routerProveedores);
