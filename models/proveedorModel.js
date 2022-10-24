@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db.js";
 
-const Proveedor = db.define('proveedor', {
+const Proveedor = db.define('proveedores', {
     id_proveedor: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -33,7 +33,7 @@ const Proveedor = db.define('proveedor', {
     }
 },
     {
-    tableName: "proveedor",
+    tableName: "proveedores",
     timestamps: false,
 }
 );
