@@ -1,47 +1,46 @@
-
 import { query } from 'express';
-import { Materia } from '../models/Materia.js';
+import { Compra } from '../models/Compra.js';
 
-export const listarMateria = async (req, res) => {
-    const lista = await Materia.findAll();
+export const listarCompra = async (req, res) => {
+    const lista = await Compra.findAll();
     if(lista.length==0){
         res.send("No existen datos");
     }else{
         res.json(lista);
     }
 };
-export const obtenerMateria = async (req, res) => {
+
+export const obtenerCompra = async (req, res) => {
     const { id } = req.params;
     try {
-        const materia = await Materia.findByPk(id);
+        const compra = await Compra.findByPk(id);
 
-        if (!materia) {
-            const error = new Error('Materia no encontrada');
+        if (!compra) {
+            const error = new Error('Compra no encontrada');
             return res.status(404).json({ msg: error.message });
         }
 
-        return res.status(200).json(materia);
+        return res.status(200).json(compra);
     } catch (error) {
         console.log(error);
     }
 };
 
-export const agregarMateria = async (req,res) =>{
-    const {nombre_materia, descripcion_materia, cantidad_existencia, precio, proveedor_id} = req.body;
-    if (!nombre_materia || !descripcion_materia || !cantidad_existencia|| !precio) {
+export const agregarCompra = async (req,res) =>{
+    const { proveedor_id, numero_factura, fecha_compra, empleado_id} = req.body;
+    if (!proveedor_id || !empleado_id) {
         res.send("Debe enviar los datos completos");
     }
     else {
-            await Materia.create({
-                nombre_materia: nombre_materia,
-                descripcion_materia: descripcion_materia,
-                cantidad_existencia: cantidad_existencia,
-                precio: precio,
+            await Compra.create({
                 proveedor_id: proveedor_id,
+                numero_factura: numero_factura,
+                fecha_compra: fecha_compra,
+                empleado_id: empleado_id,
             })
                 .then((data) => {
                     console.log(data);
-                    res.send("Materia prima registrada");
+                    res.send("Compra registrada");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -50,7 +49,7 @@ export const agregarMateria = async (req,res) =>{
     }
 };
 
-export const editarMateria = async (req, res) => {
+export const editarCompra = async (req, res) => {
     const { id } = req.params;
 
     if (
@@ -61,37 +60,36 @@ export const editarMateria = async (req, res) => {
         return res.status(400).json({ msg: error.message });
     }
     try {
-        const materia = await Materia.findByPk(id);
+        const compra = await Compra.findByPk(id);
 
-        if (!materia) {
-            const error = new Error('Materia no encontrado');
+        if (!compra) {
+            const error = new Error('Compra no encontrado');
             return res.status(404).json({ msg: error.message });
         }
        
-        const materiaActualizado = await materia.update({
-            nombre_materia: req['body']['nombre_materia'],
-            descripcion_materia: req['body']['descripcion_materia'],
-            cantidad_existencia: req['body']['cantidad_existencia'],
-            precio: req['body']['precio'],
+        const compraActualizado = await compra.update({
             proveedor_id: req['body']['proveedor_id'],
+            numero_factura: req['body']['numero_factura'],
+            fecha_compra: req['body']['fecha_compra'],
+            empleado_id: req['body']['empleado_id'],
         });
 
-        return res.status(200).json(materiaActualizado);
+        return res.status(200).json(compraActualizado);
     } catch (error) {
         console.log(error);
     }
 };
 
-export const eliminarMateria = async(req,res) =>{
-    const {id_materia} = req.query;
-    if(!id_materia){
+export const eliminarCompra = async(req,res) =>{
+    const {id} = req.query;
+    if(!id){
         res.send("Envie el id del registro");
     }
     else{
-        await Materia.destroy({
+        await Compra.destroy({
             where:
             {
-                id_materia: id_materia,
+                id: id,
             }
         })
         .then((data)=>{

@@ -9,13 +9,18 @@ import db from '../config/db.js';
         primaryKey: true,
         autoIncrement: true,
     },
-    cliente:{
-        type: DataTypes.STRING(45),
+    cliente_id:{
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
-    empleado:{
-        type: DataTypes.STRING(45),
+    empleado_id:{
+        type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    numero_factura:{
+        type: DataTypes.STRING(10),
+        allowNull: false,
+
     },
     fecha_factura:{
         type: DataTypes.DATE,
@@ -26,19 +31,11 @@ import db from '../config/db.js';
         allowNull: false,
     },
     tipo_pago:{
-        type: DataTypes.STRING(45),
+        type: DataTypes.ENUM('contado', 'credito'),
         allowNull: false,
     },
-    subtotal_factura:{
-        type: DataTypes.DOUBLE,
-        allowNull: false,
-    },
-    total_factura:{
-        type: DataTypes.DOUBLE,
-        allowNull: false,
-    },
-
-},{
+},
+{
     tableName: "facturacion",
     timestamps: false
 }

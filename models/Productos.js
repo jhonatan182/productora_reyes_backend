@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";   
 import db from '../config/db.js';
 
- export const InventarioProductos = db.define(
-    "inventarioproductos",
+ export const Productos = db.define(
+    "productos",
 {
     codigo_producto: {
         type: DataTypes.INTEGER,
@@ -17,7 +17,7 @@ import db from '../config/db.js';
         type: DataTypes.STRING(45),
         allowNull: false,
     },
-    cantidad_inicial:{
+    stock:{
         type: DataTypes.INTEGER,
         allowNull: false,
     },
@@ -25,20 +25,12 @@ import db from '../config/db.js';
         type: DataTypes.FLOAT,
         allowNull: false,
     },
-    entradas:{
-        type:DataTypes.INTEGER,
-        allowNull: false,
-    },
-    salidas:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    total:{
-        type:DataTypes.FLOAT,
+    proveedor_id:{
+        type:DataTypes.INTEGER.UNSIGNED,//Esta es mi llave foranea de mi tabla Productos para que se conecte con la tabla Proveedores
         allowNull: false,
     },
 },{
-    tableName: "inventario",
+    tableName: "productos",
     timestamps: false
 }
 );

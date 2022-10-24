@@ -16,19 +16,18 @@ export const listarFacturacion = async (req, res) => {
 };
 
 export const guardarFacturacion = async (req,res) =>{
-    const {cliente, empleado, fecha_factura, impuesto, tipo_pago, subtotal_factura, total_factura} = req.body;
-    if (!cliente || !empleado || !fecha_factura || !impuesto || !tipo_pago ||!subtotal_factura || !total_factura) {
+    const {cliente_id, empleado_id, numero_factura, fecha_factura, impuesto, tipo_pago} = req.body;
+    if (!cliente_id || !empleado_id || !numero_factura || !fecha_factura || !impuesto || !tipo_pago) {
         res.send("Debe enviar los datos completos");
     }
     else {
             await Facturacion.create({
-                cliente: cliente,
-                empleado: empleado,
+                cliente_id: cliente_id,
+                empleado_id: empleado_id,
+                numero_factura: numero_factura,
                 fecha_factura: fecha_factura,
                 impuesto: impuesto,
-                tipo_pago: tipo_pago,
-                subtotal_factura: subtotal_factura,
-                total_factura: total_factura
+                tipo_pago: tipo_pago
             })
                 .then((data) => {
                     console.log(data);
@@ -44,8 +43,8 @@ export const guardarFacturacion = async (req,res) =>{
 export const modificarFacturacion = async (req, res) => {
         
         const { id_factura } = req.query;
-        const {cliente, empleado, fecha_factura, impuesto, tipo_pago, subtotal_factura, total_factura} = req.body;
-        if (!cliente || !empleado || !fecha_factura || !impuesto || !tipo_pago ||!subtotal_factura || !total_factura) {
+        const {cliente_id, empleado_id, numero_factura,  fecha_factura, impuesto, tipo_pago} = req.body;
+        if (!cliente_id || !empleado_id || !numero_factura || !fecha_factura || !impuesto || !tipo_pago) {
         res.send("Debe enviar los datos completos");
         }
         else {
@@ -60,13 +59,12 @@ export const modificarFacturacion = async (req, res) => {
                 res.send("El id no existe");
             }
             else {
-                buscarFacturacion.cliente = cliente;
-                buscarFacturacion.empleado = empleado;
+                buscarFacturacion.cliente_id = cliente_id;
+                buscarFacturacion.empleado_id = empleado_id;
+                buscarFacturacion.numero_factura = numero_factura;
                 buscarFacturacion.fecha_factura = fecha_factura;
                 buscarFacturacion.impuesto = impuesto;
                 buscarFacturacion.tipo_pago = tipo_pago;
-                buscarFacturacion.subtotal_factura = subtotal_factura;
-                buscarFacturacion.total_factura = total_factura;
                 await buscarFacturacion.save()
                     .then((data) => {
                         console.log(data);
