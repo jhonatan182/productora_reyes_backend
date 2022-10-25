@@ -1,14 +1,12 @@
 import express from 'express';
-import { listarFacturacion } from '../controllers/facturacionController.js';
-import { guardarFacturacion } from '../controllers/facturacionController.js';
-import { modificarFacturacion } from '../controllers/facturacionController.js';
-import { eliminarFacturacion } from '../controllers/facturacionController.js';
+import { listarFacturacion, guardarFacturacion, modificarFacturacion , eliminarFacturacion } from '../controllers/facturacionController.js';
+import checkAuth from '../middlewares/checkAuth.js';
 
 const router = express.Router();
 
-router.get('/', listarFacturacion);
-router.post('/guardar', guardarFacturacion);
-router.put('/modificar', modificarFacturacion);
-router.delete('/eliminar', eliminarFacturacion);
+router.get('/',checkAuth, listarFacturacion);
+router.post('/guardar',checkAuth, guardarFacturacion);
+router.put('/modificar',checkAuth, modificarFacturacion);
+router.delete('/eliminar',checkAuth, eliminarFacturacion);
 
 export default router;
