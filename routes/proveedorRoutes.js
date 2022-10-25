@@ -1,14 +1,16 @@
 import express from "express";
-import { listarProveedores, crearProveedores, actualizarProveedor,eliminarProveedor} from "../controllers/proveedorController.js";
+import { listarProveedores, crearProveedores, actualizarProveedor,eliminarProveedor,obtenerProveedor} from "../controllers/proveedorController.js";
 import { check } from "express-validator";
-
+import checkAuth from '../middlewares/checkAuth.js';
 import { query } from "express-validator";
 
 
 
 const router = express.Router();
 
-router.get("/listar", listarProveedores);
+router.get("/",checkAuth, listarProveedores);
+router.get("/:id",checkAuth, obtenerProveedor);
+
 
 router.post("/guardar", [
     check("nombre_proveedor", "El nombre del proveedor es obligatorio").not().isEmpty(),
@@ -16,7 +18,7 @@ router.post("/guardar", [
     check("telefono_proveedor", "El telefono del proveedor es obligatorio").not().isEmpty(),
     check("direccion_proveedor", "La direccion del proveedor es obligatoria").not().isEmpty(),
     check("correo_proveedor", "El correo del proveedor es obligatorio").not().isEmpty(),
-], crearProveedores);
+], checkAuth, crearProveedores);
 
 
 router.put("/actualizar", [
@@ -26,11 +28,11 @@ router.put("/actualizar", [
     check("telefono_proveedor", "El telefono del proveedor es obligatorio").not().isEmpty(),
     check("direccion_proveedor", "La direccion del proveedor es obligatoria").not().isEmpty(),
     check("correo_proveedor", "El correo del proveedor es obligatorio").not().isEmpty(),
-], actualizarProveedor);
+], checkAuth,actualizarProveedor);
 
 router.delete("/eliminar", [
     query('id_proveedor').isInt().withMessage("Debe de enviar un numero entero."),
-], eliminarProveedor);
+], checkAuth,eliminarProveedor);
 
 export default router;
 
