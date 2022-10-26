@@ -2,6 +2,11 @@ import { query } from 'express';
 import { Detalle } from '../models/DetalleCompra.js';
 
 export const listarDetalle = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
     const lista = await Detalle.findAll();
     if(lista.length==0){
         res.send("No existen datos");
@@ -10,6 +15,12 @@ export const listarDetalle = async (req, res) => {
     }
 };
 export const obtenerDetalle = async (req, res) => {
+
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     const { id } = req.params;
     try {
         const detalle = await Detalle.findByPk(id);
@@ -25,7 +36,11 @@ export const obtenerDetalle = async (req, res) => {
     }
 };
 
-export const agregarDetalle = async (req,res) =>{
+export const agregarDetalle = async (req,res) =>{  
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
     const {producto_id, id_factura_compra, cantidad} = req.body;
     if (!producto_id || !id_factura_compra || !cantidad) {
         res.send("Debe enviar los datos completos");
@@ -34,7 +49,8 @@ export const agregarDetalle = async (req,res) =>{
             await Detalle.create({
                 producto_id: producto_id,
                 id_factura_compra: id_factura_compra,
-                cantidad: cantidad
+                cantidad: cantidad,
+                empleado_id: req.usuario.id_empleado
             })
                 .then((data) => {
                     console.log(data);
@@ -48,6 +64,11 @@ export const agregarDetalle = async (req,res) =>{
 };
 
 export const editarDetalle = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     const { id } = req.params;
 
     if (
@@ -79,6 +100,11 @@ export const editarDetalle = async (req, res) => {
 };
 
 export const eliminarDetalle = async(req,res) =>{
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
     const {producto_id} = req.query;
     if(!producto_id){
         res.send("Envie el id del registro");

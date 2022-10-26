@@ -1,7 +1,11 @@
-import { query } from 'express';
 import { Compra } from '../models/Compra.js';
 
 export const listarCompra = async (req, res) => {
+   if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
     const lista = await Compra.findAll();
     if(lista.length==0){
         res.send("No existen datos");
@@ -11,6 +15,12 @@ export const listarCompra = async (req, res) => {
 };
 
 export const obtenerCompra = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
+
     const { id } = req.params;
     try {
         const compra = await Compra.findByPk(id);
@@ -27,6 +37,12 @@ export const obtenerCompra = async (req, res) => {
 };
 
 export const agregarCompra = async (req,res) =>{
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
+
     const { proveedor_id, numero_factura, fecha_compra, empleado_id} = req.body;
     if (!proveedor_id || !empleado_id) {
         res.send("Debe enviar los datos completos");
@@ -37,6 +53,7 @@ export const agregarCompra = async (req,res) =>{
                 numero_factura: numero_factura,
                 fecha_compra: fecha_compra,
                 empleado_id: empleado_id,
+                empleado_id: req.usuario.id_empleado
             })
                 .then((data) => {
                     console.log(data);
@@ -50,7 +67,12 @@ export const agregarCompra = async (req,res) =>{
 };
 
 export const editarCompra = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
     const { id } = req.params;
+    
 
     if (
         Object.values(req.body).includes('') ||
@@ -81,6 +103,12 @@ export const editarCompra = async (req, res) => {
 };
 
 export const eliminarCompra = async(req,res) =>{
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
+
     const {id} = req.query;
     if(!id){
         res.send("Envie el id del registro");
