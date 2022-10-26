@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Usuario from '../models/Usuario.js';
 
+
 const checkAuth = async (req, res, next) => {
     let token;
     if (

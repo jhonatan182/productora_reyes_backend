@@ -3,6 +3,10 @@ import { validationResult } from 'express-validator';
 import {query} from 'express-validator';
 
 export const listarEmpleados = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permiso');
+        return res.status(404).json({ msg: error.message });
+    }
     try {
         const empleados = await empleadoModel.findAll();
         if (empleados.length == 0) {
@@ -17,12 +21,17 @@ export const listarEmpleados = async (req, res) => {
     }
 };
 export const crearEmpleados = async (req, res) => {
-    //? revisar si hay errores
+  
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permiso');
+        return res.status(404).json({ msg: error.message });
+    }
+      //? revisar si hay errores
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
         return res.status(400).json({ errores: errores.array() });
     }
-
+   
     try {
         //? crear nuevo empleado
         const empleado = new empleadoModel(req.body);
@@ -36,6 +45,10 @@ export const crearEmpleados = async (req, res) => {
 };
 
 export const actualizarEmpleado = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permiso');
+        return res.status(404).json({ msg: error.message });
+    }
     //? revisar si hay errores
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
@@ -84,6 +97,10 @@ export const actualizarEmpleado = async (req, res) => {
 };
 
 export const eliminarEmpleado = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permiso');
+        return res.status(404).json({ msg: error.message });
+    }
     try {
         //? revisar el ID
         let empleado = await empleadoModel.findByPk(req.query.id_empleado);
