@@ -4,6 +4,7 @@ import {query} from 'express-validator';
 
 
 export const listarProveedores = async (req, res) => {
+    
     try {
         const proveedores = await proveedorModel.findAll();
         if (proveedores.length == 0) {
@@ -18,7 +19,32 @@ export const listarProveedores = async (req, res) => {
     }
 };
 
+//obtener un proveedor por su id
+export const obtenerProveedor = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    const { id } = req.params;
+    try {
+        const proveedor = await proveedorModel.findByPk(id);
+        if (!proveedor) {
+            const error = new Error('Proveedor no encontrado');
+            return res.status(404).json({ msg: error.message });
+        }
+        return res.status(200).json({msg: 'Proveedor encontrado', proveedor});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+};
+
 export const crearProveedores = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+
     //? revisar si hay errores
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
@@ -26,6 +52,16 @@ export const crearProveedores = async (req, res) => {
     }
 
     try {
+        //? validando que el correo no haya sido registrado
+        const clienteExiste = await proveedorModel.findOne({
+            where: {
+                correo_proveedor: req.body.correo_proveedor,
+            },
+        });
+        if (clienteExiste) {
+            const error = new Error('El correo ya ha sido registrado');
+            return res.status(400).json({ msg: error.message });
+        }
         //? crear nuevo proveedor
         const proveedor = new proveedorModel(req.body);
         await proveedor.save();
@@ -38,6 +74,11 @@ export const crearProveedores = async (req, res) => {
 };
 
 export const actualizarProveedor = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
     //? revisar si hay errores
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
@@ -87,6 +128,11 @@ export const actualizarProveedor = async (req, res) => {
 };
 
 export const eliminarProveedor = async (req, res) => {
+    if (req.usuario.descripcion_rol !== 'admin') {
+        const error = new Error('No tiene permisos para esta accion');
+        return res.status(404).json({ msg: error.message });
+    }
+    
     try {
         //? revisar el ID
         let proveedor = await proveedorModel.findByPk(req.query.id_proveedor);
