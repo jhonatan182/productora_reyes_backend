@@ -16,14 +16,14 @@ export const listarFacturacion = async (req, res) => {
 };
 
 export const guardarFacturacion = async (req,res) =>{
-    const {cliente_id, empleado_id, numero_factura, fecha_factura, impuesto, tipo_pago} = req.body;
-    if (!cliente_id || !empleado_id || !numero_factura || !fecha_factura || !impuesto || !tipo_pago) {
+    const {cliente_id, numero_factura, fecha_factura, impuesto, tipo_pago} = req.body;
+    if (!cliente_id || !numero_factura || !fecha_factura || !impuesto || !tipo_pago) {
         res.send("Debe enviar los datos completos");
     }
     else {
             await Facturacion.create({
                 cliente_id: cliente_id,
-                empleado_id: empleado_id,
+                empleado_id: req.usuario.id_empleado,
                 numero_factura: numero_factura,
                 fecha_factura: fecha_factura,
                 impuesto: impuesto,
@@ -43,8 +43,8 @@ export const guardarFacturacion = async (req,res) =>{
 export const modificarFacturacion = async (req, res) => {
         
         const { id_factura } = req.query;
-        const {cliente_id, empleado_id, numero_factura,  fecha_factura, impuesto, tipo_pago} = req.body;
-        if (!cliente_id || !empleado_id || !numero_factura || !fecha_factura || !impuesto || !tipo_pago) {
+        const {cliente_id, numero_factura,  fecha_factura, impuesto, tipo_pago} = req.body;
+        if (!cliente_id || !numero_factura || !fecha_factura || !impuesto || !tipo_pago) {
         res.send("Debe enviar los datos completos");
         }
         else {
@@ -60,7 +60,7 @@ export const modificarFacturacion = async (req, res) => {
             }
             else {
                 buscarFacturacion.cliente_id = cliente_id;
-                buscarFacturacion.empleado_id = empleado_id;
+                buscarFacturacion.empleado_id = req.usuario.id_empleado;
                 buscarFacturacion.numero_factura = numero_factura;
                 buscarFacturacion.fecha_factura = fecha_factura;
                 buscarFacturacion.impuesto = impuesto;
