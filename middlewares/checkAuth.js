@@ -11,6 +11,14 @@ const checkAuth = async (req, res, next) => {
         //? obtener el token
         token = req.headers.authorization.split(' ')[1];
 
+        //? dividir el jsonwebtoken
+        const partes = token.split('.');
+
+        if (partes.length !== 3) {
+            const error = new Error('Token malformed');
+            return res.status(500).json({ msg: error.message });
+        }
+
         //? decodificar el contenido del token
         const decoded = jwt.verify(token, process.env.JWT_KEY);
 
