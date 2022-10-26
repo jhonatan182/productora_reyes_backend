@@ -43,9 +43,7 @@ const Empleado = db.define('empleados', {
         {
         tableName: "empleados",
         timestamps: false,
-    }
-
-    
+    }  
 
 );
 

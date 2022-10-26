@@ -1,11 +1,12 @@
 import express from "express";
 import { listarEmpleados, crearEmpleados,actualizarEmpleado,eliminarEmpleado} from "../controllers/empleadoController.js";
+import checkAuth from '../middlewares/checkAuth.js';
 import { check } from "express-validator";
 import { query } from "express-validator";
 
 const router = express.Router();
 
-router.get("/listar", listarEmpleados);
+router.get("/listar",checkAuth, listarEmpleados);
 router.post("/guardar", [
     check("nombre_empleado", "El nombre del empleado es obligatorio").not().isEmpty(),
     check("identidad_empleado", "La identidad del empleado es obligatoria").not().isEmpty(),
@@ -13,7 +14,7 @@ router.post("/guardar", [
     check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
     check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
     check("rol_id", "El rol del empleado es obligatorio").not().isEmpty(),
-], crearEmpleados);
+], checkAuth, crearEmpleados);
 
 router.put("/actualizar", [
     query('id_empleado').isInt().withMessage("Debe de enviar un numero entero."),
@@ -23,11 +24,11 @@ router.put("/actualizar", [
     check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
     check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
     check('rol_id').isInt().withMessage("Debe de enviar un numero entero."),
-], actualizarEmpleado);
+], checkAuth, actualizarEmpleado);
 
 router.delete("/eliminar", [
     query('id_empleado').isInt().withMessage("Debe de enviar un numero entero."),
-], eliminarEmpleado);
+], checkAuth, eliminarEmpleado);
 
 
 
