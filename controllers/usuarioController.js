@@ -11,6 +11,17 @@ const registrarUsuario = async (req, res) => {
     }
 
     try {
+        const existeUsuario = await Usuario.findOne({
+            where: {
+                usuario: req.body.usuario,
+            },
+        });
+
+        if (existeUsuario) {
+            const error = new Error('Un empleado ya cuenta con este usuario');
+            return res.status(400).json({ msg: error.message });
+        }
+
         const usuario = new Usuario(req.body);
 
         const usuarioAlmacenado = await usuario.save();

@@ -1,15 +1,16 @@
 import { Compra } from '../models/Compra.js';
+import { DetalleCompra } from '../models/DetalleCompra.js';
 
 export const listarCompra = async (req, res) => {
-   if (req.usuario.descripcion_rol !== 'admin') {
+    if (req.usuario.descripcion_rol !== 'admin') {
         const error = new Error('No tiene permisos para esta accion');
         return res.status(404).json({ msg: error.message });
     }
-    
+
     const lista = await Compra.findAll();
-    if(lista.length==0){
-        res.send("No existen datos");
-    }else{
+    if (lista.length == 0) {
+        res.send('No existen datos');
+    } else {
         res.json(lista);
     }
 };
@@ -19,7 +20,6 @@ export const obtenerCompra = async (req, res) => {
         const error = new Error('No tiene permisos para esta accion');
         return res.status(404).json({ msg: error.message });
     }
-    
 
     const { id } = req.params;
     try {
@@ -36,33 +36,36 @@ export const obtenerCompra = async (req, res) => {
     }
 };
 
-export const agregarCompra = async (req,res) =>{
+export const agregarCompra = async (req, res) => {
     if (req.usuario.descripcion_rol !== 'admin') {
         const error = new Error('No tiene permisos para esta accion');
         return res.status(404).json({ msg: error.message });
     }
-    
 
-    const { proveedor_id, numero_factura, fecha_compra, empleado_id} = req.body;
-    if (!proveedor_id || !empleado_id) {
-        res.send("Debe enviar los datos completos");
-    }
-    else {
-            await Compra.create({
-                proveedor_id: proveedor_id,
-                numero_factura: numero_factura,
-                fecha_compra: fecha_compra,
-                empleado_id: empleado_id,
-                empleado_id: req.usuario.id_empleado
-            })
-                .then((data) => {
-                    console.log(data);
-                    res.send("Compra registrada");
-                })
-                .catch((error) => {
-                    console.log(error);
-                    res.send("Error al guardar datos");
-                });
+    const { proveedor_id, numero_factura, fecha_compra, productos } = req.body;
+    if (!proveedor_id) {
+        res.send('Debe enviar los datos completos');
+    } else {
+        await Compra.create({
+            proveedor_id: proveedor_id,
+            numero_factura: numero_factura,
+            fecha_compra: fecha_compra,
+            empleado_id: req.usuario.id_empleado,
+        }).catch((error) => {
+            console.log(error);
+            res.send('Error al guardar datos');
+        });
+
+        const productosSeleccionados = productos.map((producto) => ({
+            producto_id: producto.id,
+            id_factura_compra: numero_factura,
+            cantidad: producto.cantidad,
+            precio_unitario: producto.precio_unitario,
+        }));
+
+        await DetalleCompra.bulkCreate(productosSeleccionados).then((data) => {
+            return res.status(200).json({ msg: 'Compra Almacenada' });
+        });
     }
 };
 
@@ -72,7 +75,6 @@ export const editarCompra = async (req, res) => {
         return res.status(404).json({ msg: error.message });
     }
     const { id } = req.params;
-    
 
     if (
         Object.values(req.body).includes('') ||
@@ -88,7 +90,7 @@ export const editarCompra = async (req, res) => {
             const error = new Error('Compra no encontrado');
             return res.status(404).json({ msg: error.message });
         }
-       
+
         const compraActualizado = await compra.update({
             proveedor_id: req['body']['proveedor_id'],
             numero_factura: req['body']['numero_factura'],
@@ -102,35 +104,31 @@ export const editarCompra = async (req, res) => {
     }
 };
 
-export const eliminarCompra = async(req,res) =>{
+export const eliminarCompra = async (req, res) => {
     if (req.usuario.descripcion_rol !== 'admin') {
         const error = new Error('No tiene permisos para esta accion');
         return res.status(404).json({ msg: error.message });
     }
-    
 
-    const {id} = req.query;
-    if(!id){
-        res.send("Envie el id del registro");
-    }
-    else{
+    const { id } = req.query;
+    if (!id) {
+        res.send('Envie el id del registro');
+    } else {
         await Compra.destroy({
-            where:
-            {
+            where: {
                 id: id,
-            }
+            },
         })
-        .then((data)=>{
-            console.log(data);
-            if(data ==0){
-                res.send("El id no existe");
-            }
-            else{
-                res.send("Eliminado correctamente");
-            }
-        })
-        .catch((error)=>{
-            res.send("Error");
-        })
+            .then((data) => {
+                console.log(data);
+                if (data == 0) {
+                    res.send('El id no existe');
+                } else {
+                    res.send('Eliminado correctamente');
+                }
+            })
+            .catch((error) => {
+                res.send('Error');
+            });
     }
 };
