@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { conectarDB } from './config/db.js';
 
 //? rutas
@@ -14,13 +15,29 @@ import routerUsuarios from './routes/usuarioRoutes.js';
 import routerCompra from './routes/compraRoutes.js';
 import routerDetalle from './routes/detalleRoutes.js';
 
-
 //? manejo de variables de entorno
 dotenv.config();
 
 //? servidor de express
 const app = express();
 app.use(express.json());
+
+const whiteList = [process.env.FRONTEND_URL];
+const corsOptions = {
+    origin: function (origin, callback) {
+        //? en origin viene los origen de donde viene las peticiones
+        //? callback permite el acceso o no
+        if (whiteList.includes(origin)) {
+            //? verificamos que la peticion de origin esta permitida en nuestrsa lista
+            callback(null, true);
+        } else {
+            callback(new Error('CORS no permitido'));
+        }
+    },
+};
+
+//? uso de cors
+app.use(cors(corsOptions));
 
 //? conectar a db
 conectarDB();
@@ -36,7 +53,6 @@ app.use('/api/proveedores', routerProveedores);
 app.use('/api/usuarios', routerUsuarios);
 app.use('/api/compras', routerCompra);
 app.use('/api/detalles', routerDetalle);
-
 
 const PORT = process.env.PORT || 4000;
 
