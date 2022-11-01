@@ -14,6 +14,10 @@ router.post("/guardar", [
     check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
     check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
     check("rol_id", "El rol del empleado es obligatorio").not().isEmpty(),
+    check("usuario","el usuario es obligatorio").not().isEmpty(),
+    check("password","la contraseña es obligatoria").not().isEmpty(),
+
+    
 ], checkAuth, crearEmpleados);
 
 router.put("/actualizar", [
