@@ -1,5 +1,7 @@
 import empleadoModel from '../models/empleadoModel.js';
-import { validationResult } from 'express-validator';
+import UsuarioModel from '../models/Usuario.js';
+
+import { body, validationResult } from 'express-validator';
 import {query} from 'express-validator';
 
 export const listarEmpleados = async (req, res) => {
@@ -34,13 +36,24 @@ export const crearEmpleados = async (req, res) => {
    
     try {
         //? crear nuevo empleado
-        const empleado = new empleadoModel(req.body);
-        await empleado.save();
-        res.status(200).json({ msg: 'Empleado creado correctamente',empleado });
+        const empleado= new empleadoModel(req.body);
+        
+        
+        const{ id_empleado} =await empleado.save();
+        console.log({id_empleado,password:req.body.password, usuario:req.body.usuario})
+     
+        const usuario = new  UsuarioModel({
+            empleado_id:id_empleado,
+            usuario:req.body.usuario,
+            password:req.body.password
+           
+        });
+        await usuario.save();
+        res.status(200).json({ msg: 'Empleado creado correctamente', empleado});
       
     } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
+       // console.log(error);
+        res.status(500).send('Hubo un error ' +error.message);
     }
 };
 
