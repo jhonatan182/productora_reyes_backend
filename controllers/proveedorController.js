@@ -8,10 +8,10 @@ export const listarProveedores = async (req, res) => {
     try {
         const proveedores = await proveedorModel.findAll();
         if (proveedores.length == 0) {
-            return res.status(404).json({ msg: 'No hay proveedores' });
+            res.send("No existen proveedores");
         }
         else {
-        return res.status(200).json({msg: 'Lista de proveedores', proveedores});
+            res.json(proveedores);
         }
     } catch (error) {
         console.log(error);
@@ -32,7 +32,7 @@ export const obtenerProveedor = async (req, res) => {
             const error = new Error('Proveedor no encontrado');
             return res.status(404).json({ msg: error.message });
         }
-        return res.status(200).json({msg: 'Proveedor encontrado', proveedor});
+        res.json(proveedor);
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -65,7 +65,7 @@ export const crearProveedores = async (req, res) => {
         //? crear nuevo proveedor
         const proveedor = new proveedorModel(req.body);
         await proveedor.save();
-        res.status(200).json({ msg: 'Proveedor creado correctamente',proveedor });
+        res.json(proveedor);
       
     } catch (error) {
         console.log(error);
@@ -120,7 +120,7 @@ export const actualizarProveedor = async (req, res) => {
             { ...nuevoProveedor },
             { where: { id_proveedor: req.query.id_proveedor } }
         );
-            res.status(200).json({ msg: 'Proveedor actualizado correctamente', nuevoProveedor });
+            res.status(200).json({ msg: 'Proveedor actualizado correctamente'});
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
