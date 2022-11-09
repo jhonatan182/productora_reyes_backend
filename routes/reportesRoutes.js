@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('/mostSoldProducts', MostSoldProduct);
 router.get('/productsStock', ProductsStock);
-router.get('/salesEmployee', SalesByCustomer);
-router.get('/salesCustomer', SalesByEmployee);
+router.get('/salesEmployee', SalesByEmployee);
+router.get('/salesCustomer', SalesByCustomer);
 
 export default router;
