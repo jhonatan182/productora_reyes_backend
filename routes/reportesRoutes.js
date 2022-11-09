@@ -1,16 +1,17 @@
-import { Router } from "express";
-import { 
+import { Router } from 'express';
+import {
     MostSoldProduct,
     ProductsStock,
     SalesByCustomer,
-    SalesByEmployee
+    SalesByEmployee,
 } from '../controllers/reportesController.js';
+import checkAuth from '../middlewares/checkAuth.js';
 
 const router = Router();
 
-router.get('/mostSoldProducts', MostSoldProduct);
-router.get('/productsStock', ProductsStock);
-router.get('/salesEmployee', SalesByEmployee);
-router.get('/salesCustomer', SalesByCustomer);
+router.get('/mostSoldProducts', checkAuth, MostSoldProduct);
+router.get('/productsStock', checkAuth, ProductsStock);
+router.get('/salesEmployee', checkAuth, SalesByEmployee);
+router.get('/salesCustomer', checkAuth, SalesByCustomer);
 
 export default router;
