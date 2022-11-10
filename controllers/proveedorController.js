@@ -78,53 +78,22 @@ export const actualizarProveedor = async (req, res) => {
         const error = new Error('No tiene permisos para esta accion');
         return res.status(404).json({ msg: error.message });
     }
-    
-    //? revisar si hay errores
-    const errores = validationResult(req);
-    if (!errores.isEmpty()) {
-        return res.status(400).json({ errores: errores.array() });
-    }
-
-    //? extraer la informacion del proveedor
-    const { nombre_proveedor, descripcion_proveedor,identidad_proveedor, telefono_proveedor, direccion_proveedor, correo_proveedor, } = req.body;
-    const nuevoProveedor = {};
-    if (nombre_proveedor) {
-        nuevoProveedor.nombre_proveedor = nombre_proveedor;
-    }
-    if (descripcion_proveedor) {
-        nuevoProveedor.descripcion_proveedor = descripcion_proveedor;
-    }
-    if (identidad_proveedor) {
-        nuevoProveedor.identidad_proveedor = identidad_proveedor;
-    }
-    if (telefono_proveedor) {
-        nuevoProveedor.telefono_proveedor = telefono_proveedor;
-    }
-    if (direccion_proveedor) {
-        nuevoProveedor.direccion_proveedor = direccion_proveedor;
-    }
-    if (correo_proveedor) {
-        nuevoProveedor.correo_proveedor = correo_proveedor;
-    }
-
+    const { id } = req.params;
     try {
-        //? revisar el ID
-        let proveedor = await proveedorModel.findByPk(req.query.id_proveedor);
-
-        //? si el proveedor existe o no
+        const proveedor = await proveedorModel.findByPk(id);
         if (!proveedor) {
-            return res.status(404).json({ msg: 'Proveedor no encontrado' });
+            const error = new Error('Proveedor no encontrado');
+            return res.status(404).json({ msg: error.message });
         }
-        //? actualizar
-        proveedor = await proveedorModel.update(
-            { ...nuevoProveedor },
-            { where: { id_proveedor: req.query.id_proveedor } }
-        );
-            res.status(200).json({ msg: 'Proveedor actualizado correctamente'});
+        //? actualizando los datos
+        const proveedorActualizado = await proveedor.update(req.body);
+        res.json(proveedorActualizado);
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
+
+    
 };
 
 export const eliminarProveedor = async (req, res) => {
@@ -132,22 +101,21 @@ export const eliminarProveedor = async (req, res) => {
         const error = new Error('No tiene permisos para esta accion');
         return res.status(404).json({ msg: error.message });
     }
-    
+    const { id } = req.params;
     try {
-        //? revisar el ID
-        let proveedor = await proveedorModel.findByPk(req.query.id_proveedor);
-
-        //? si el proveedor existe o no
+        const proveedor = await proveedorModel.findByPk(id);
         if (!proveedor) {
-            return res.status(404).json({ msg: 'Proveedor no encontrado' });
+            const error = new Error('Proveedor no encontrado');
+            return res.status(404).json({ msg: error.message });
         }
-        //? eliminar el proveedor
-        await proveedorModel.destroy({ where: { id_proveedor: req.query.id_proveedor } });
-        res.status(200).json({ id_proveedor:req.query.id_proveedor , msg: 'Eliminado correctamente'});
+        //? eliminando el proveedor
+        await proveedor.destroy();
+        res.json({ msg: 'Proveedor eliminado' });
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
+   
 }
 
 
