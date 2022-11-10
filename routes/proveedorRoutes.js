@@ -21,8 +21,7 @@ router.post("/guardar", [
 ], checkAuth, crearProveedores);
 
 
-router.put("/actualizar", [
-    query('id_proveedor').isInt().withMessage("Debe de enviar un numero entero."),
+router.put("/actualizar/:id", [
     check("nombre_proveedor", "El nombre del proveedor es obligatorio").not().isEmpty(),
     check("identidad_proveedor", "La identidad del proveedor es obligatoria").not().isEmpty(),
     check("telefono_proveedor", "El telefono del proveedor es obligatorio").not().isEmpty(),
@@ -30,8 +29,7 @@ router.put("/actualizar", [
     check("correo_proveedor", "El correo del proveedor es obligatorio").not().isEmpty(),
 ], checkAuth,actualizarProveedor);
 
-router.delete("/eliminar", [
-    query('id_proveedor').isInt().withMessage("Debe de enviar un numero entero."),
+router.delete("/eliminar/:id", [
 ], checkAuth,eliminarProveedor);
 
 export default router;
