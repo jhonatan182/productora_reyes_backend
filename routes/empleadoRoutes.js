@@ -1,37 +1,15 @@
 import express from "express";
 import { listarEmpleados, crearEmpleados,actualizarEmpleado,eliminarEmpleado} from "../controllers/empleadoController.js";
 import checkAuth from '../middlewares/checkAuth.js';
-import { check } from "express-validator";
-import { query } from "express-validator";
 
 const router = express.Router();
 
 router.get("/listar",checkAuth, listarEmpleados);
-router.post("/guardar", [
-    check("nombre_empleado", "El nombre del empleado es obligatorio").not().isEmpty(),
-    check("identidad_empleado", "La identidad del empleado es obligatoria").not().isEmpty(),
-    check("telefono_empleado", "El telefono del empleado es obligatorio").not().isEmpty(),
-    check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
-    check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
-    check("rol_id", "El rol del empleado es obligatorio").not().isEmpty(),
-    check("usuario","el usuario es obligatorio").not().isEmpty(),
-    check("password","la contraseña es obligatoria").not().isEmpty(),
+router.post("/guardar", checkAuth, crearEmpleados);
 
-    
-], checkAuth, crearEmpleados);
+router.put("/actualizar/:id", checkAuth, actualizarEmpleado);
 
-router.put("/actualizar", [
-    query('id_empleado').isInt().withMessage("Debe de enviar un numero entero."),
-    check("nombre_empleado", "El nombre del empleado es obligatorio").not().isEmpty(),
-    check("identidad_empleado", "La identidad del empleado es obligatoria").not().isEmpty(),
-    check("telefono_empleado", "El telefono del empleado es obligatorio").not().isEmpty(),
-    check("direccion_empleado", "La direccion del empleado es obligatoria").not().isEmpty(),
-    check("correo_empleado", "El correo del empleado es obligatorio").not().isEmpty(),
-    check('rol_id').isInt().withMessage("Debe de enviar un numero entero."),
-], checkAuth, actualizarEmpleado);
-
-router.delete("/eliminar", [
-    query('id_empleado').isInt().withMessage("Debe de enviar un numero entero."),
+router.delete("/eliminar/:id", [
 ], checkAuth, eliminarEmpleado);
 
 
